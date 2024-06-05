@@ -1,14 +1,47 @@
 
-<nb-layout windowMode>
-  <nb-layout-header fixed>
-    Company Name
-  </nb-layout-header>
+<div class="nb-theme-dark">
+    <nb-layout>
+        <nb-layout-header fixed>
+            <div class="header-container">
+                <div class="logo-container">
+                  <div class="logo">
+          <!-- <img [src]="store.photoUrl" alt=""> -->
+          <!-- <img src="https://www.kindpng.com/picc/m/250-2507957_ar-logo-png-transparent-png.png" alt="Ar Logo Png, Transparent Png@kindpng.com"> -->
+                        AR
+                  </div>
 
-  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
-      <nb-menu [items]="items" autoCollapse="true">
-      </nb-menu>
-  </nb-sidebar>
+                    <div class="logo" (click)="navigateHome()">
+                      <b>{{store.storeName | uppercase }}</b>
+                    </div>
+                  </div>
+            </div>
+      
+            <div class="user-action-header" >
+                <nb-actions size="small">
+                    <nb-action class="control-item" icon="search">
+                        <!-- <nb-search type="rotate-layout"></nb-search> -->
+                    </nb-action>
+                    <nb-action class="user-action">
+                        <nb-user size="large"
+                          name="{{userConf.firstName | titlecase}} {{userConf.lastName | titlecase}}"
+                          [title]="userConf.role[0]"
+                          badgeStatus="success"
+                          badgePosition="bottom right">
+                        </nb-user>
+                    </nb-action>
+                </nb-actions>
+            </div>
+          
+        </nb-layout-header>
+      
+        <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+            <nb-menu [items]="items" autoCollapse="true">
+            </nb-menu>
+        </nb-sidebar>
+      
+        <nb-layout-column>
+          <ng-content select="router-outlet"></ng-content>
+        </nb-layout-column>
 
-  <nb-layout-column>
-    <ng-content select="router-outlet"></ng-content>
-  </nb-layout-column>
+
+
