@@ -8,4 +8,10 @@ import { NbLoginComponent } from '@nebular/auth';
 })
 export class NgxLoginComponent extends NbLoginComponent {
 
+   ngOnInit() {
+    console.log("ICB test log");
+  }
+  
+
 }
+

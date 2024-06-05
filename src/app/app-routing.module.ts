@@ -9,6 +9,7 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 import { AuthGuardService } from './services/auth-guard.service';
+import { PagesResolverService } from './services/resolvers/pages-resolver.service';
 
 const routes: Routes = [
   {
@@ -22,6 +23,9 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     loadChildren: () => import('./pages/pages.module')
     .then(m => m.PagesModule),
+    resolve: {
+      storeConf: PagesResolverService
+    }
   },
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   // { path: '**', redirectTo: 'pages' },

@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbMenuModule } from '@nebular/theme';
+import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbActionsModule, NbIconModule, NbCardModule, NbUserModule } from '@nebular/theme';
+import { HeaderComponent } from '../common/component/header/header.component';
 // import { NgxLoginComponent } from './login/login.component';
 
 
@@ -12,6 +13,7 @@ import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbMenuModule } from '@
   declarations: [
     PagesComponent,
     DashboardComponent,
+    HeaderComponent,
     // NgxLoginComponent
   ],
   imports: [
@@ -19,7 +21,12 @@ import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbMenuModule } from '@
     NbSidebarModule,
     NbLayoutModule,
     PagesRoutingModule,
-    NbMenuModule
+    NbMenuModule,
+    NbActionsModule,
+    NbIconModule,
+    NbCardModule,
+    NbUserModule
+
   ]
 })
 export class PagesModule { }
