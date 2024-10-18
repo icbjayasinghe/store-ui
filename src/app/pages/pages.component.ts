@@ -23,10 +23,12 @@ export class PagesComponent implements OnInit{
       expanded: true,
       children: [
         {
-          title: 'Change Password',
+          title: 'Check Inventory',
+          url: 'pages/inventory/check-inventory'
         },
         {
-          title: 'Privacy Policy',
+          title: 'Inbound Products',
+          url: 'pages/inventory/inbound-product'
         },
         {
           title: 'Logout',

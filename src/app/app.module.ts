@@ -20,6 +20,7 @@ import {
 } from '@nebular/theme';
 import { AuthGuardService } from './services/auth-guard.service';
 import { NgxAuthModule } from './auth/auth.module';
+import { PagesModule } from './pages/pages.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NgxAuthModule } from './auth/auth.module';
     NbMenuModule.forRoot(),
     HttpClientModule,
     NgxAuthModule,
+    PagesModule
   ],
   providers: [
     AuthGuardService,

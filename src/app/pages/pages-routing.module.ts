@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CheckInventoryComponent } from './inventory-control/check-inventory/check-inventory.component';
+import { InboundProductComponent } from './inventory-control/inbound-product/inbound-product.component';
 
 const routes: Routes = [
   {
@@ -11,7 +13,15 @@ const routes: Routes = [
        {
          path: 'dashboard',
          component: DashboardComponent
-       }
+       },
+       {
+         path: 'inventory/check-inventory',
+         component: CheckInventoryComponent
+       },
+       {
+        path: 'inventory/inbound-product',
+        component: InboundProductComponent
+      }
      ]
   }
 ];
