@@ -8,6 +8,7 @@ import { NbSidebarModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbAction
 import { HeaderComponent } from '../common/component/header/header.component';
 import { CheckInventoryComponent } from './inventory-control/check-inventory/check-inventory.component';
 import { InboundProductComponent } from './inventory-control/inbound-product/inbound-product.component';
+import { InventoryItemsDialogComponent } from './dialogs/inventory-items-dialog/inventory-items-dialog.component';
 // import { NgxLoginComponent } from './login/login.component';
 
 
@@ -18,6 +19,7 @@ import { InboundProductComponent } from './inventory-control/inbound-product/inb
     HeaderComponent,
     CheckInventoryComponent,
     InboundProductComponent,
+    InventoryItemsDialogComponent,
     // NgxLoginComponent
   ],
   imports: [
@@ -30,8 +32,8 @@ import { InboundProductComponent } from './inventory-control/inbound-product/inb
     NbIconModule,
     NbCardModule,
     NbUserModule,
-    NbTreeGridModule
-
+    NbTreeGridModule,
+    NbButtonModule
   ]
 })
 export class PagesModule { }
