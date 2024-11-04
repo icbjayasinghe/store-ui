@@ -1,43 +1,41 @@
-import { Component } from '@angular/core';
-import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbGetters, NbSortDirection, NbSortRequest } from '@nebular/theme';
+import { Component, OnInit } from '@angular/core';
+import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbGetters, NbSortDirection, NbSortRequest, NbDialogService } from '@nebular/theme';
 import { InventoryGrpItem } from 'src/app/models/inventory-grp-item.model';
 import { InventoryService } from 'src/app/services/inventory.service';
+import { async } from '@angular/core/testing';
+import { HttpErrorResponse } from '@angular/common/http';
+import { InventoryItemsDialogComponent } from '../../dialogs/inventory-items-dialog/inventory-items-dialog.component';
+import { InventoryItem } from 'src/app/models/inventory-item.model';
 
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-
-interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
 
 @Component({
   selector: 'app-check-inventory',
   templateUrl: './check-inventory.component.html',
   styleUrls: ['./check-inventory.component.scss']
 })
-export class CheckInventoryComponent {
+export class CheckInventoryComponent implements OnInit{
 
-  customColumn = 'name';
-  defaultColumns = [ 'size', 'kind', 'items' ];
-  allColumns = [ this.customColumn, ...this.defaultColumns ];
+  customColumn = 'product';
+  defaultColumns = [ 'category', 'brand','stockQuantity', 'lastInboundDate' ];
+  allColumns = [ this.customColumn, ...this.defaultColumns, 'batch' ];
 
-  dataSource: NbTreeGridDataSource<FSEntry>;
+
+  dataSource!: NbTreeGridDataSource<InventoryGrpItem>;
 
   sortColumn!: string;
   sortDirection: NbSortDirection = NbSortDirection.NONE;
 
-  constructor(private dataSourceBuilder: NbTreeGridDataSourceBuilder<FSEntry>,
-              private inventoryService: InventoryService) {
-    this.getInventoryGroupItemList();
-    this.dataSource = this.dataSourceBuilder.create(this.data);
+  inventoryGroupItems: any = [];
 
+  constructor(private dataSourceBuilder: NbTreeGridDataSourceBuilder<InventoryGrpItem>,
+              private inventoryService: InventoryService,
+              private dialogService: NbDialogService) {
   }
+
+  ngOnInit(): void {
+    this.getInventoryGroupItemList();
+  }
+  
 
   updateSort(sortRequest: NbSortRequest): void {
     this.sortColumn = sortRequest.column;
@@ -51,50 +49,7 @@ export class CheckInventoryComponent {
     return NbSortDirection.NONE;
   }
 
-  private data: TreeNode<FSEntry>[] = [
-    {
-      data: { name: 'Projects', size: '1.8 MB', items: 5, kind: 'dir' },
-      children: [
-        { data: { name: 'project-1.doc', kind: 'doc', size: '240 KB' } },
-        { data: { name: 'project-2.doc', kind: 'doc', size: '290 KB' } },
-        {
-          data: { name: 'project-3', kind: 'dir', size: '466 KB', items: 3 },
-          children: [
-            { data: { name: 'project-3A.doc', kind: 'doc', size: '200 KB' } },
-            { data: { name: 'project-3B.doc', kind: 'doc', size: '266 KB' } },
-            { data: { name: 'project-3C.doc', kind: 'doc', size: '0' } },
-          ],
-        },
-        { data: { name: 'project-4.docx', kind: 'docx', size: '900 KB' } },
-      ],
-    },
-    {
-      data: { name: 'Reports', kind: 'dir', size: '400 KB', items: 2 },
-      children: [
-        {
-          data: { name: 'Report 1', kind: 'dir', size: '100 KB', items: 1 },
-          children: [
-            { data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } },
-          ],
-        },
-        {
-          data: { name: 'Report 2', kind: 'dir', size: '300 KB', items: 2 },
-          children: [
-            { data: { name: 'report-2.doc', kind: 'doc', size: '290 KB' } },
-            { data: { name: 'report-2-note.txt', kind: 'txt', size: '10 KB' } },
-          ],
-        },
-      ],
-    },
-    {
-      data: { name: 'Other', kind: 'dir', size: '109 MB', items: 2 },
-      children: [
-        { data: { name: 'backup.bkp', kind: 'bkp', size: '107 MB' } },
-        { data: { name: 'secret-note.txt', kind: 'txt', size: '2 MB' } },
-      ],
-    },
-  ];
-
+  
   getShowOn(index: number) {
     const minWithForMultipleColumns = 400;
     const nextColumnStep = 100;
@@ -102,32 +57,27 @@ export class CheckInventoryComponent {
   }
 
   getInventoryGroupItemList(): InventoryGrpItem[]{
-    const inventoryGrpItems: InventoryGrpItem[] = this.inventoryService.getInventoryGroupItems(1,"ACTIVE")
-                                                  .subscribe((inventoryGrpItems: InventoryGrpItem[]) => {
-                                                    console.log('check this icb '+JSON.stringify(inventoryGrpItems));
-
-                                                  });
+    this.inventoryService.getInventoryGroupItems(1,"ACTIVE")
+                                                  .subscribe({next: (inventoryItems: InventoryGrpItem[]) => {
+                                                    this.inventoryGroupItems = inventoryItems;
+                                                    console.log('check this icb heyß',this.inventoryGroupItems);
+                                                    // this.dataSource = this.dataSourceBuilder.create<InventoryGrpItem>(inventoryItems);
+                                                    // console.log('this.dataSource ',this.dataSource);
+                                                  },
+                                                error: (error:HttpErrorResponse)=>{
+                                                  alert(error.message)
+                                                }});
+      console.log('icb undef '+this.inventoryGroupItems)
    
-      return inventoryGrpItems;
+      return this.inventoryGroupItems;
+  }
+
+  openInventoryItemDialog(inventoryItems: InventoryGrpItem) {
+    this.dialogService.open(InventoryItemsDialogComponent, {
+      context: {
+        title: inventoryItems.category+" - "+ inventoryItems.brand +" - "+ inventoryItems.product,
+        inventoryItems: inventoryItems.inventoryItems
+      },
+    });
   }
 }
-
-// @Component({
-//   selector: 'nb-fs-icon',
-//   template: `
-//     <nb-tree-grid-row-toggle [expanded]="expanded" *ngIf="isDir(); else fileIcon">
-//     </nb-tree-grid-row-toggle>
-//     <ng-template #fileIcon>
-//       <nb-icon icon="file-text-outline"></nb-icon>
-//     </ng-template>
-//   `,
-// })
-// export class FsIconComponent {
-//   @Input() kind: string = '';
-//   @Input() expanded: boolean = false;
-
-//   isDir(): boolean {
-//     return this.kind === 'dir';
-//   }
-// }
-

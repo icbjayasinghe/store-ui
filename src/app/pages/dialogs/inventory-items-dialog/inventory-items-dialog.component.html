@@ -1,0 +1,20 @@
+<nb-card accent="info">
+    <nb-card-header>{{title}}</nb-card-header>
+    <nb-card-body>
+            <table [nbTreeGrid]="inventoryItems">
+              
+                <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+                <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+            
+                <ng-container [nbTreeGridColumnDef]="customColumn" *ngFor="let customColumn of allColumns">
+                    <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+                    {{customColumn}}
+                    </th>
+                    <td nbTreeGridCell *nbTreeGridCellDef="let row; let i=index">
+                        <span *ngIf = "customColumn != 'inboundDate'">{{inventoryItems[i][customColumn]}} </span>
+                        <span *ngIf = "customColumn == 'inboundDate'">{{inventoryItems[i][customColumn] | date}} </span>
+                    </td>
+                </ng-container>
+                </table>
+    </nb-card-body>
+</nb-card>

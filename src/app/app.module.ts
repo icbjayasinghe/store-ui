@@ -37,7 +37,8 @@ import { PagesModule } from './pages/pages.module';
     NbMenuModule.forRoot(),
     HttpClientModule,
     NgxAuthModule,
-    PagesModule
+    PagesModule,
+    NbDialogModule.forRoot(),
   ],
   providers: [
     AuthGuardService,

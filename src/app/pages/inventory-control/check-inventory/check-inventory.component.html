@@ -10,35 +10,21 @@
         <nb-card>
                 <nb-card-body>
               
-                  <!-- <label class="search-label" for="search">Search:</label>
-                  <input nbInput [nbFilterInput]="dataSource" id="search" class="search-input"> -->
-              
-                  <table [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
+                  <table [nbTreeGrid]="inventoryGroupItems">
               
                     <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
                     <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
               
-                    <ng-container [nbTreeGridColumnDef]="customColumn">
-                      <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)" *nbTreeGridHeaderCellDef>
+                    <ng-container [nbTreeGridColumnDef]="customColumn" *ngFor="let customColumn of allColumns">
+                      <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
                         {{customColumn}}
                       </th>
-                      <td nbTreeGridCell *nbTreeGridCellDef="let row">
-                        <!-- <nb-fs-icon [kind]="row.data.kind" [expanded]="row.expanded"></nb-fs-icon> -->
-                        <nb-tree-grid-row-toggle [expanded]="row.expanded" *ngIf="row.data.kind === 'dir'">
-                        </nb-tree-grid-row-toggle>
-                        {{row.data[customColumn]}}
+                      <td nbTreeGridCell *nbTreeGridCellDef="let row; let i=index">
+                        <span *ngIf = "customColumn != 'lastInboundDate'">{{inventoryGroupItems[i][customColumn]}}</span>
+                        <span *ngIf = "customColumn == 'lastInboundDate'">{{inventoryGroupItems[i][customColumn] | date}} </span>
+                        <span *ngIf = "customColumn == 'batch'"><button nbButton status="info" (click)="openInventoryItemDialog(inventoryGroupItems[i])">View</button></span>
                       </td>
                     </ng-container>
-              
-                    <ng-container *ngFor="let column of defaultColumns; let index = index"
-                                  [nbTreeGridColumnDef]="column"
-                                  [showOn]="getShowOn(index)">
-                      <th nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
-                        {{column}}
-                      </th>
-                      <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column] || '-'}}</td>
-                    </ng-container>
-              
                   </table>
               
                 </nb-card-body>
