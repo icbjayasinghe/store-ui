@@ -6,6 +6,7 @@ import { async } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { InventoryItemsDialogComponent } from '../../dialogs/inventory-items-dialog/inventory-items-dialog.component';
 import { InventoryItem } from 'src/app/models/inventory-item.model';
+import { AddItemStepperDialogComponent } from '../../dialogs/add-item-stepper-dialog/add-item-stepper-dialog.component';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class CheckInventoryComponent implements OnInit{
 
   customColumn = 'product';
   defaultColumns = [ 'category', 'brand','stockQuantity', 'lastInboundDate' ];
+  columnTitles = ['Product', 'Category', 'Brand','Stock Quantity', 'Last Inbound Date', 'Batch'];
   allColumns = [ this.customColumn, ...this.defaultColumns, 'batch' ];
 
 
@@ -73,11 +75,16 @@ export class CheckInventoryComponent implements OnInit{
   }
 
   openInventoryItemDialog(inventoryItems: InventoryGrpItem) {
+    console.log('inventoryItems ',inventoryItems);
     this.dialogService.open(InventoryItemsDialogComponent, {
       context: {
         title: inventoryItems.category+" - "+ inventoryItems.brand +" - "+ inventoryItems.product,
         inventoryItems: inventoryItems.inventoryItems
       },
     });
+  }
+
+  openAddItemStepperDialog() {
+    this.dialogService.open(AddItemStepperDialogComponent);
   }
 }
