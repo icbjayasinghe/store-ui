@@ -13,7 +13,7 @@ export class InventoryItemsDialogComponent {
 
   // childColumns = [ 'inventoryItemId', 'quantity','inboundDate', 'status' ];
   customColumn = 'inventoryItemId';
-  defaultColumns = [ 'quantity','inboundDate', 'status' ];
+  defaultColumns = [ 'skuName','quantity', 'expireDate', 'manufactureDate','inboundDate', 'sellingPrice', 'buyingPrice', 'status' ];
   allColumns = [ this.customColumn, ...this.defaultColumns ];
 
   constructor(private nbDialog: NbDialogRef<any>) {

@@ -1,31 +1,35 @@
+
+<!-- <nb-layout-header> -->
+    <h4>Check Inventory</h4>
+<!-- </nb-layout-header> -->
 <nb-layout-header subheader>
     <nb-actions>
-      <nb-action icon="home-outline"></nb-action>
-      <nb-action icon="search-outline"></nb-action>
-      <nb-action icon="edit-outline"></nb-action>
+        <nb-action icon="home-outline"></nb-action>
+        <nb-action icon="search-outline"></nb-action>
+        <nb-action icon="plus-outline" (click)="openAddItemStepperDialog()"></nb-action>
     </nb-actions>
   </nb-layout-header>
   <nb-layout-column>
 
-        <nb-card>
-                <nb-card-body>
-              
-                  <table [nbTreeGrid]="inventoryGroupItems">
-              
-                    <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-                    <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
-              
-                    <ng-container [nbTreeGridColumnDef]="customColumn" *ngFor="let customColumn of allColumns">
-                      <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
-                        {{customColumn}}
-                      </th>
-                      <td nbTreeGridCell *nbTreeGridCellDef="let row; let i=index">
-                        <span *ngIf = "customColumn != 'lastInboundDate'">{{inventoryGroupItems[i][customColumn]}}</span>
-                        <span *ngIf = "customColumn == 'lastInboundDate'">{{inventoryGroupItems[i][customColumn] | date}} </span>
-                        <span *ngIf = "customColumn == 'batch'"><button nbButton status="info" (click)="openInventoryItemDialog(inventoryGroupItems[i])">View</button></span>
-                      </td>
-                    </ng-container>
-                  </table>
-              
-                </nb-card-body>
-              </nb-card>
+  <nb-card>
+    <nb-card-body>
+
+      <table [nbTreeGrid]="inventoryGroupItems">
+
+        <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+        <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+        <ng-container [nbTreeGridColumnDef]="customColumn" *ngFor="let customColumn of allColumns">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+            {{customColumn}}
+          </th>
+          <td nbTreeGridCell *nbTreeGridCellDef="let row; let i=index">
+            <span *ngIf = "customColumn != 'lastInboundDate'">{{inventoryGroupItems[i][customColumn]}}</span>
+            <span *ngIf = "customColumn == 'lastInboundDate'">{{inventoryGroupItems[i][customColumn] | date}} </span>
+            <span *ngIf = "customColumn == 'batch'"><button nbButton status="info" (click)="openInventoryItemDialog(inventoryGroupItems[i])">View</button></span>
+          </td>
+        </ng-container>
+      </table>
+
+    </nb-card-body>
+  </nb-card>

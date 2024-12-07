@@ -11,8 +11,8 @@
                     {{customColumn}}
                     </th>
                     <td nbTreeGridCell *nbTreeGridCellDef="let row; let i=index">
-                        <span *ngIf = "customColumn != 'inboundDate'">{{inventoryItems[i][customColumn]}} </span>
-                        <span *ngIf = "customColumn == 'inboundDate'">{{inventoryItems[i][customColumn] | date}} </span>
+                        <span *ngIf = "customColumn != 'inboundDate' && customColumn !='expireDate' && customColumn !='manufactureDate'">{{inventoryItems[i][customColumn]}} </span>
+                        <span *ngIf = "customColumn === 'inboundDate' || customColumn ==='expireDate' || customColumn ==='manufactureDate'">{{inventoryItems[i][customColumn] | date}} </span>
                     </td>
                 </ng-container>
                 </table>
